@@ -36,8 +36,14 @@
       },
       handle: function(result) {
         var success = result && !result.error;
+        document.querySelector('#main').style.display = success ? '' : 'none';
         document.querySelector('#authorization').style.display = success ? 'none' : '';
         if (success) main.fetch();
+      },
+      install: function(event) {
+        gapi.auth.authorize(Object.assign({}, auth.args, {immediate: false, scope:'https://www.googleapis.com/auth/drive.install'}), function(result) {
+          var success = result && !result.error;
+        });
       },
     };
     
@@ -103,6 +109,7 @@
         return num.toPrecision(3) + ' ' + units[i];
       },
       ready: function() {
+        var next = auth.check;
         try { main.files = (drive.input() || {}).ids || []; }
         catch (e) {
           document.querySelector('#main').style.display = 'none';
@@ -110,7 +117,12 @@
         }
         if (main.files.length <= 0) {
           document.querySelector('#main').style.display = 'none';
-          return main.alert('danger', "No files to open!");
+          if (document.location.search) {
+            return main.alert('danger', "No files to open!");
+          }
+          next = function() {
+            document.querySelector('#installation').style.display = '';
+          };
         }
         if (main.files.length > 1) {
           main.alert('warning', main.files.length + " files requested. Opening only one.");
@@ -118,7 +130,7 @@
         gapi.load('client', function() {
           gapi.client.init({
             discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
-          }).then(auth.check);
+          }).then(next);
         });
       },
     };
@@ -133,6 +145,10 @@
     <div id="authorization" style="display:none">
       <span>Authorize access to Google Drive</span>
       <button onclick="auth.click(event)">Authorize</button>
+    </div>
+    <div id="installation" style="display:none">
+      <span>Install Diff Viewer to Google Drive</span>
+      <button onclick="auth.install(event)">Install</button>
     </div>
 
 <!--
