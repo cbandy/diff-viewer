@@ -12,8 +12,6 @@
     body { margin: 1em; }
   </style>
 
-<!-- ?state=%7B%22ids%22:%5B%220Bxc6s1WkZW9GczNLazhOWTZlR2NzVXphdjNHOWlRaDhpUllr%22%5D,%22action%22:%22open%22,%22userId%22:%22{userId}%22%7D -->
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script src="https://apis.google.com/js/api.js"></script>
@@ -22,10 +20,10 @@
   <script>
     var auth = {
       args: {
-        client_id: '100327861189-19qdor29sng3giebscavdmc5cisf07ng.apps.googleusercontent.com',
+        client_id: document.location.hostname == 'v.patch.reviews'
+          ? '247609139963-6n87e6nqa6edrdf6l9f1898ts7ai99gv.apps.googleusercontent.com'
+          : '100327861189-19qdor29sng3giebscavdmc5cisf07ng.apps.googleusercontent.com',
         scope: 'https://www.googleapis.com/auth/drive.readonly',
-        //scope: 'https://www.googleapis.com/auth/drive.file',
-        //scope: 'https://www.googleapis.com/auth/drive.metadata.readonly',
       },
       check: function() {
         gapi.auth.authorize(Object.assign({}, auth.args, {immediate: true}), auth.handle);
