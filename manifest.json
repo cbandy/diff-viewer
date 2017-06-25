@@ -1,0 +1,34 @@
+{
+  "manifest_version": 2,
+
+  "name": "Diff Viewer",
+  "description": "View patches with color and syntax highlighting",
+  "homepage_url": "https://github.com/cbandy/diff-viewer",
+  "version": "0.0.1",
+
+  "icons": {
+    "32": "assets/diff_32x32.png",
+    "128": "assets/diff_128x128.png"
+  },
+
+  "container": ["GOOGLE_DRIVE"],
+  "api_console_project_id": "247609139963",
+  "gdrive_mime_types": {
+    "http://drive.google.com/intents/opendrivedoc": [
+      {
+        "type": ["text/plain",
+          "application/vnd.google.drive.ext-type.diff",
+          "application/vnd.google.drive.ext-type.patch"],
+          "href": "http://v.patch.reviews/google-drive",
+          "title": "Open",
+          "disposition": "window"
+      }
+    ]
+  },
+
+  "app": {
+    "launch": {
+      "web_url": "http://v.patch.reviews/google-drive"
+    }
+  }
+}
